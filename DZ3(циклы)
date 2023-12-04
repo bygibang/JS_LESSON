@@ -1,0 +1,50 @@
+// первое задание
+
+let num = prompt("Ведите число: ");
+for(let a = 2;a <= num;a++){
+	if (num % a == 0 && a < num){
+		console.log('ne prostoe');
+		break;
+	}else console.log('prostoe');
+}
+
+
+
+// Второе задание(простое число в диапозоне) 
+
+let num = prompt("Ведите число: ");
+for (let a = 1; a <= num; a++) {
+  for (let b = 2; b <= a; b++) {
+    if (a % b === 0 && b < a) {
+      break;
+    } else if (b === a) {
+      console.log(a);
+    }
+  }
+}
+
+
+
+
+//  третье задание
+
+let num = prompt("Ведите число: ");
+let a = 0;
+while (a < num) {
+	let probel = '';
+	let zvezda = '';
+	for (let b = 0; b < num - a; b++){
+		probel += ' ';
+	}for (let b = 0; b < 2 * a + 1; b++){
+		zvezda += '*';
+	}
+	a++;
+	console.log(probel + zvezda);
+ }
+
+
+// ----*----
+// ---***---
+// --*****--
+// -*******-
+// *********
