@@ -1,0 +1,36 @@
+let text = "заказ";
+let newtext = '';
+
+//  первое задание (рядок наоборот)
+let reverse = function reverseString(){
+	for(let i = 0; i < text.length;i++){
+		newtext = text.charAt(i) + newtext;
+	}
+	return newtext;
+}
+console.log(reverse());
+
+// второе задание(проверка на полиндром),первая делает ряд наоборот,а вторая проверяет на палиндром,если по отдельности можно добавить тело функции во второй пример
+
+function isPalindrome() {
+	if (newtext == text){
+		console.log('палиндром');
+	} else {
+		console.log('не палиндром');
+	}
+}
+isPalindrome();
+
+// третье задание,найбольший общий делитель
+
+function findGCD(a,b){
+	while (a != b){
+		if(a > b){
+			a = a - b;
+		} else {
+			b = b - a;
+		}
+	}
+	return a;
+}
+console.log(findGCD(32,12));
