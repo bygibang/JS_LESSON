@@ -1,0 +1,36 @@
+// Задание 1
+
+const originalArray = [1, 2, 3, 4, 5]; 
+const reversedArray = originalArray.reverse();
+console.log(reversedArray);
+
+// если нужно не изменяя первый массив
+
+const originalArray = [1, 2, 3, 4, 5]; 
+const reversedArray = originalArray.toReversed();
+console.log(originalArray);
+console.log(reversedArray);
+
+
+//  Задание 2
+
+const array1 = [1, 2, 3, 4, 5]; 
+const array2 = [3, 4, 5, 6, 7]; 
+const uniqueValuesArray = new Set([...array1,...array2]);
+console.log(Array.from(uniqueValuesArray));
+
+
+// Задание 3
+
+const students = [ 
+	{ name: "Alice",age: 20, grade: 4.5 }, 
+	{ name: "Bob", age: 21, grade: 3.9 }, 
+	{ name: "Charlie", age: 19, grade: 4.8 } 
+	]; 
+calculateAverageGrade = 0;
+const arr = () => {
+	for( let i = 0; i < students.length; i++){
+		calculateAverageGrade += students[i].grade / students.length;
+	} console.log(Number(calculateAverageGrade.toFixed(1))); // округлил,потому что получалось почему то 4.3999999999
+}
+arr();
