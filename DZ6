@@ -1,0 +1,84 @@
+// задание 1
+
+function logArguments(fn) {
+	return function (...args) {
+	  console.log('Arguments:', args);
+	  return fn.apply(this, args);
+	};
+ }
+ 
+ function sum(a, b) {
+	return a + b;
+ }
+ 
+ const loggedSum = logArguments(sum);
+ 
+ console.log(loggedSum(2, 3));
+
+
+
+ // задание 2
+
+ function validate(fn, validator) {
+	return function (...args) {
+	  if (validator(args)) {
+		 return fn.apply(this, args);
+	  } else {
+		 throw new Error('Invalid arguments');
+	  }
+	};
+ }
+ 
+ function addNumbers(a, b) {
+	return a + b;
+ }
+
+ function numberValidator(args) {
+	return args.every(arg => typeof arg === 'number');
+ }
+ 
+ const validatedAdd = validate(addNumbers, numberValidator);
+ 
+ try {
+	console.log(validatedAdd(2, 3));
+	console.log(validatedAdd(2, '3'));
+ } catch (error) {
+	console.error(error.message);
+ }
+
+
+ // задание 3
+
+ function retry(fn, maxAttempts) {
+	return function (...args) {
+	  let attempts = 0;
+	  let lastError = null;
+ 
+	  while (attempts < maxAttempts) {
+		 try {
+			return fn.apply(this, args);
+		 } catch (error) {
+			attempts++;
+			lastError = error;
+		 }
+	  }
+ 
+	  throw lastError || new Error('Max attempts reached');
+	};
+ }
+ 
+ function failingFunction() {
+	const randomNumber = Math.random();
+	if (randomNumber < 0.8) {
+	  throw new Error('Random error');
+	}
+	return 'Success!';
+ }
+ 
+ const retryingFunction = retry(failingFunction, 3);
+ 
+ try {
+	console.log(retryingFunction());
+ } catch (error) {
+	console.error(error.message);
+ }
