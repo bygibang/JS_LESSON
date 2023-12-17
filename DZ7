@@ -1,0 +1,86 @@
+// задание 1
+
+function summarize(num) {
+
+	return function(num1) {
+		if (num1 === undefined){
+			return num + 1;
+		} else {
+			return num + num1;
+		}
+	};
+}
+let value = summarize(4); // если два аргумента то будет 8
+console.log(value(4));
+
+
+// либо вот так
+
+
+function summarize(num,num1) {
+
+	return function() {
+		if (num1 === undefined){
+			return num + 1;
+		} else {
+			return num + num1;
+		}
+	};
+}
+let value = summarize(4,4); // если два аргумента то будет 8
+let value = summarize(3); // если один то будет 4
+console.log(value());
+
+
+
+
+// задание 2
+
+function counter(startValue,step) {
+	let value = startValue;
+
+	function increment() {
+		value += step;
+		return value;
+	}
+	function decrement() {
+		value -= step;
+		return value;
+	}
+	function reset() {
+		value = startValue;
+		return value;
+	}
+
+	return {
+		increment,decrement,reset
+	}
+}
+const result = counter(3, 1);
+
+console.log(result.increment());
+console.log(result.decrement());
+console.log(result.reset());
+
+// задание 3
+
+function sequence(fn, fn) {
+	return function (x) {
+	  const result1 = fn(x);
+	  const result2 = fn(result1);
+	  return result2;
+	};
+ }
+
+ function first(x) {
+	return x + 2;
+ }
+ 
+ function second(x) {
+	return x * 2;
+ }
+ 
+ const resultSequence = sequence(first, second);
+ const result = resultSequence(2);
+ 
+ console.log(result);
