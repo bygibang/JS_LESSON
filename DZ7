@@ -64,10 +64,10 @@ console.log(result.reset());
 
 // задание 3
 
-function sequence(fn, fn) {
+function sequence(fn1, fn2) {
 	return function (x) {
-	  const result1 = fn(x);
-	  const result2 = fn(result1);
+	  const result1 = fn1(x);
+	  const result2 = fn2(result1);
 	  return result2;
 	};
  }
