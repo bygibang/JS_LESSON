@@ -1,0 +1,138 @@
+// Чуть чуть заколхозил изначально kurs надо было сделать массивом и добавлять
+// в массив новые курсы обьекты,но второе дз с созданием новых курсов и удалением 
+// увидел потом,поэтому заколхозил и сделал еще kurses,куда добавляются новые курсы
+
+
+
+function Student(firstName, lastName, birthsday,kurs) {
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.birthsday = birthsday;
+	this.kurses = [];
+	this.kurs = {
+		name:kurs,
+		grades:[],
+		rating:[],
+	};
+
+	this.grade = (...grade) => this.kurs.grades.push(...grade); // добавляет оценки
+	this.rate = (...rate) => this.kurs.rating.push(...rate); // добавляет количество посещений(если был пишем тру,если не был пишем фолс)
+
+	// средняя оценка
+	this.valueGrades = function () {
+		const grades = this.kurs.grades;
+		if (grades.length > 0){
+			const result = grades.reduce((item,grade) => item + grade);
+			return result / grades.length;
+		} else {
+			return 'Нет оценок';
+		}
+	};
+
+	// Если был на занятии то это тру,если не было - фолс. Ищем все тру и их колчество и делим на общее количество занятий
+	this.valueRating = function () {
+		const rating = this.kurs.rating;
+		if (rating.length > 0){
+			const ratingResult = rating.filter((item) => item === true).length;
+			return ratingResult / rating.length;
+		} else {
+			return 'Нет занятий';
+		}
+	};
+
+	// Пройденные занятие,по прошлому методу,только считаем все тру(посещенные занятия)
+	this.allValueRating = function () {
+		return this.kurs.rating.filter((item) => item === true).length
+	};
+
+	//создание нового курса и обнуление значений
+	this.newKurs = function (nextKurs) {
+		this.kurs.name = nextKurs ;
+		this.kurs.grades = [];
+		this.kurs.rating = [];
+	};
+
+	//Добавление курсов
+	this.addCourse = function (courseNumber) {
+		const course = {
+			 name: courseNumber,
+			 grades: [],
+			 rating: []
+		};
+		this.kurses.push(course)
+   };
+
+	//Удаление курса
+	this.deleteCourse = function (courseNum) {
+		this.kurses.pop(courseNum)
+   };
+
+	// показать все параметры студента c уже подсчитанным средним балом итд
+	this.allStudent = function () {
+		return {
+			Имя: this.firstName,
+			Фамилия: this.lastName,
+			Дата_рождения: this.birthsday,
+			Курс: this.kurs.name,
+			Средний_бал: this.valueGrades(),
+			Среднее_количество_посещений: this.valueRating(),
+			Количество_пройденых_занятий: this.allValueRating()
+		}
+	}
+
+}
+
+
+
+// Конструктор группы
+
+function Group (name) {
+	this.name = name;
+	this.students = [];
+
+	// добавление и удаление студентов в группу
+	this.addStudent = (student) => this.students.push(student);
+	this.deleteStudent = (student) => this.students.pop(student);
+
+	// сортировка студентов по возрастанию успеваемости и посещений
+	Group.prototype.studentsSort = function () {
+		return this.students.sort((a, b) => {
+		  const aRating = a.valueGrades() * a.valueRating();
+		  const bRating = b.valueGrades() * b.valueRating();
+			return bRating - aRating;
+		});
+	 };
+
+};
+
+
+const student1 = new Student('Valera','Doe','12.02.1990','Java script')
+// console.log(student1.kurs);
+const student2 = new Student('Deni','Loe','02.11.1996','python')
+// console.log(student2.kurs);
+
+
+student1.grade(9,8);
+student1.rate(true,true,false,false);
+
+student2.grade(10,9);
+student2.rate(true,false,false,false);
+
+
+const group1 = new Group('первая');
+group1.addStudent(student1);
+group1.addStudent(student2);
+// group1.deleteStudent(student1);
+console.log(group1);
+
+
+// console.log(student1.valueGrades());
+// console.log(student1.valueRating());
+// console.log(student1.allValueRating());
+// // // console.log(student1.newKurs('C++'));
+// // console.log(student1.addCourse('ffff'));
+// // console.log(student1.deleteCourse('ffff'));
+console.log(student1.allStudent());
+// console.log(student1);
+
+console.log(group1.studentsSort())
