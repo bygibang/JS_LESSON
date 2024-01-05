@@ -1,0 +1,49 @@
+//число Фабианачи
+function fab(a) {
+	if (a <= 1) {
+		 return a;
+	} else {
+		 return fab(a - 1) + fab(a - 2);
+	}
+}
+console.log(fab(7));
+
+
+
+// число палиндром
+function Palindrom(number, steps = 0) {
+	const revnumber = parseInt(number.toString().split('').reverse().join(''));
+
+	if (number === revnumber) {
+		 return { result: revnumber, steps: steps };
+	} else {
+		 const sum = number + revnumber;
+		 return Palindrom(sum, steps + 1);
+	}
+}
+console.log(Palindrom(34))
+
+
+
+// перестановки
+function change(arr) {
+	if (arr.length === 1) {
+		 return [arr];
+	}
+
+	const permutations = [];
+
+	for (let i = 0; i < arr.length; i++) {
+		 const element = arr[i];
+		 const remainElements = [...arr.slice(0, i), ...arr.slice(i + 1)];
+		 const innerPermutations = change(remainElements);
+
+		 for (const perm of innerPermutations) {
+			  permutations.push([element, ...perm]);
+		 }
+	}
+
+	return permutations;
+}
+
+console.log(change([1,2,3]));
