@@ -1,0 +1,73 @@
+class TodoList {
+	constructor () {
+		this.notes = []
+	}
+// добавление
+	add(title, description){
+		const note = {
+			title: title,
+			desc: description,
+			status: false,
+			createDate: new Date(),
+			refreshDate: new Date()
+		}
+		this.notes.push(note);
+	}
+// редактирование
+	editor(index, newTitle, newDesc){
+		const note = this.notes[index];
+		note.title = newTitle;
+		note.desc = newDesc;
+		note.refreshDate = new Date();
+	}
+// удаление
+	delete(index){
+		this.notes.splice(index,1)
+	}
+// все заметки
+	allNotes() {
+		return this.notes;
+	}
+// отдельная информация заметки по индексу
+	noteInfo (index){
+		return this.notes[index]
+	}
+// добавление статуса заметки
+	noteStatus(index){
+		this.notes[index].status = true;
+	}
+// статистика заметок
+	stata() {
+		const allStatus = this.notes.length;
+		const allStatusFilter = this.notes.filter((notes) => notes.status).length;
+		const allStatusResult = allStatus - allStatusFilter;
+
+		return `Всего заметок: ${allStatus}, Невыполненных: ${allStatusResult}`;
+	}
+// поиск по заголовку
+	searchTitle (name){
+		return this.notes.filter((notes) => notes.title.toLowerCase().includes(name.toLowerCase()));
+	}
+// сортировка по статусу
+	sortStatus(){
+		return this.notes.sort((a,b) => a.status - b.status);
+	}
+// сортировка по дате редактирования
+	sortDate(){
+		return this.notes.sort((a,b) => a.refreshDate - b.refreshDate);
+	}
+}
+
+const doList = new TodoList();
+doList.add("Заметка первая", "выаываываы");
+doList.add("заметка вторая", "олывлао ывалоыва");
+doList.add("еще одна заметка", "выадцу цукол цуколц");
+doList.delete(5);
+doList.noteStatus(0);
+doList.noteStatus(2);
+console.log(doList.stata());
+doList.editor(0,'новый заголовок','привет я заметка');
+console.log(doList.noteInfo(0));
+console.log("Все заметки:", doList.allNotes());
+console.log(doList.sortStatus());
+console.log(doList.searchTitle('вавава'));
