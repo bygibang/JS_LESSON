@@ -1,0 +1,79 @@
+// Первое задание
+
+function randomDelayPrint(message) {
+	const a = message.split('');
+	
+	function aindex(index){
+		if (index === a.length) {
+			return index;
+		}
+
+	const zader = Math.random() * 1000;
+
+	setTimeout(() => {
+		console.log(a[index]);
+		aindex(index + 1);
+		},zader);
+	}
+	 aindex(0)
+}
+randomDelayPrint("Hello");
+
+
+
+
+// Второе задание
+
+function debounce(callback,delay) {
+	let timeout;
+	return function (){
+		clearTimeout(timeout);
+		timeout = setTimeout(() => {
+			callback();
+		 }, delay);
+	}
+} 
+const expensiveOperation = () => console.log("Виконую складну операцію...");
+const debouncedExpensiveOperation = debounce(expensiveOperation, 1000);
+debouncedExpensiveOperation();
+debouncedExpensiveOperation();
+debouncedExpensiveOperation();
+
+ 
+
+// Третье задание
+
+ function intervalRace(functions, t) {
+	const results = [];
+	let index = 0;
+ 
+	function nextFunc() {
+	  if (index < functions.length) {
+		 const currentFunction = functions[index];
+		 const result = currentFunction();
+		 results.push(result);
+		 index++;
+		 setTimeout(nextFunc, t);
+	  } else {
+		 console.log(results);
+	  }
+	}
+	nextFunc();
+ }
+ 
+
+ 
+ const funcMass = [
+	function first() {
+		return 2 * 3;
+	},
+	function second() {
+		return 2 * 3 + 5;
+	},
+	function thrid() {
+		return 2 * 3 - 1;
+	},
+ ];
+ 
+ 
+ intervalRace(funcMass, 1000);
