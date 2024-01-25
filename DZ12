@@ -1,0 +1,137 @@
+Добавил в html для отображения на страничке div id="weather-form";
+
+const formContainer = document.getElementById('weather-form');
+let form = document.createElement('form');
+form.className = "winter_form";
+let input = document.createElement('input');
+input.type = 'text';
+input.placeholder = 'Введите ваш город здесь...';
+const label = document.createElement('label');
+label.textContent = 'Введите ваш город: ';
+const submitButton = document.createElement('button');
+submitButton.type = 'button';
+submitButton.textContent = 'Отправить';
+submitButton.addEventListener('click', submit);
+form.appendChild(label);
+form.appendChild(input);
+form.appendChild(submitButton);
+formContainer.appendChild(form);
+
+let cityName;
+
+async function submit() {
+    cityName = input.value;
+    await getWeather(cityName);
+}
+
+async function cityLat(cityName) {
+    const city = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=35beb2293c1c635e4e163b66fdf266cb`);
+    const data = await city.json();
+    const cityLat = data[0].lat;
+    return cityLat;
+}
+
+async function cityLon(cityName) {
+    const city1 = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=35beb2293c1c635e4e163b66fdf266cb`);
+    const data1 = await city1.json();
+    const cityLon = data1[0].lon;
+    return cityLon;
+}
+
+async function weather(lat, lon) {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=35beb2293c1c635e4e163b66fdf266cb`);
+    const data2 = await response.json();
+    return data2;
+}
+
+async function getWeather(cityName) {
+    const [lat, lon] = await Promise.all([cityLat(cityName), cityLon(cityName)]);
+    const weatherData = await weather(lat, lon);
+    const name = weatherData.name;
+    const main = weatherData.main;
+    const clouds = weatherData.clouds;
+    const wind = weatherData.wind;
+
+    const VisibleName = document.createElement('p');
+    VisibleName.textContent = `Ваш город: ${name}`;
+    formContainer.appendChild(VisibleName);
+
+    const VisibleMain = document.createElement('p');
+    VisibleMain.textContent = `Температура: ${main.temp} ℉`;
+    formContainer.appendChild(VisibleMain);
+
+    const VisibleClouds = document.createElement('p');
+    VisibleClouds.textContent = `Облачность: ${clouds.all} %`;
+    formContainer.appendChild(VisibleClouds);
+
+    const VisibleWind = document.createElement('p');
+    VisibleWind.textContent = `Скорость ветра: ${wind.speed} м/с`;
+    formContainer.appendChild(VisibleWind);
+}
+
+
+Оптимизированный код чатом гпт
+
+
+
+
+const formContainer = document.getElementById('weather-form');
+const form = createForm();
+formContainer.appendChild(form);
+
+async function submit() {
+    const cityName = form.querySelector('input').value;
+    const weatherData = await getWeather(cityName);
+
+    displayWeatherInfo(weatherData);
+}
+
+async function cityGeoInfo(cityName) {
+    const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=35beb2293c1c635e4e163b66fdf266cb`);
+    const data = await response.json();
+    return data[0];
+}
+
+async function getWeather(cityName) {
+    const { lat, lon } = await cityGeoInfo(cityName);
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=35beb2293c1c635e4e163b66fdf266cb`);
+    return await response.json();
+}
+
+function createForm() {
+    const form = document.createElement('form');
+    form.className = "winter_form";
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Введите ваш город';
+
+    const label = document.createElement('label');
+    label.textContent = 'Введите ваш город: ';
+
+    const submitButton = document.createElement('button');
+    submitButton.type = 'button';
+    submitButton.textContent = 'Отправить';
+    submitButton.addEventListener('click', submit);
+
+    form.appendChild(label);
+    form.appendChild(input);
+    form.appendChild(submitButton);
+
+    return form;
+}
+
+function displayWeatherInfo(weatherData) {
+    const { name, main, clouds, wind } = weatherData;
+
+    appendElementWithText('p', `Ваш город: ${name}`);
+    appendElementWithText('p', `Температура: ${main.temp} ℉`);
+    appendElementWithText('p', `Облачность: ${clouds.all} %`);
+    appendElementWithText('p', `Скорость ветра: ${wind.speed} м/с`);
+}
+
+function appendElementWithText(tag, text) {
+    const element = document.createElement(tag);
+    element.textContent = text;
+    formContainer.appendChild(element);
+}
