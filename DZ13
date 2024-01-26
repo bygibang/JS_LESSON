@@ -1,0 +1,60 @@
+// Задание 1
+function* fibonacciGenerator(n) {
+	let a = 0, b = 1;
+ 
+	for (let i = 0; i < n || n === undefined; i++) {
+	  yield a;
+	  [a, b] = [b, a + b];
+	}
+ }
+ 
+ const fibonacci = (n) => fibonacciGenerator(n);
+ 
+ const fibGen = fibonacci(10);
+ 
+ console.log(fibGen.next().value);
+ console.log(fibGen.next().value);
+ console.log(fibGen.next().value);
+ console.log(fibGen.next().value);
+ console.log(fibGen.next().value);
+
+
+// Задание 2
+
+ function* flattenGenerator(arr) {
+	for (const element of arr) {
+	  if (Array.isArray(element)) {
+		 yield* flattenGenerator(element);
+	  } else {
+		 yield element;
+	  }
+	}
+ }
+ 
+ const flatten = (arr) => flattenGenerator(arr);
+ 
+ const nestedArr = [1, [2, 3], [4, 5, [6, 7]]];
+ const flattenGen = flatten(nestedArr);
+ 
+ console.log([...flattenGen]);
+
+
+// Задание 3
+
+ async function* asyncGenerator(promises) {
+	for (const promise of promises) {
+	  yield await promise;
+	}
+ }
+
+ const promises = [
+	new Promise((resolve) => setTimeout(() => resolve(1), 1000)),
+	new Promise((resolve) => setTimeout(() => resolve(2), 500)),
+	new Promise((resolve) => setTimeout(() => resolve(3), 1500)),
+ ];
+ 
+ (async () => {
+	for await (const result of asyncGenerator(promises)) {
+	  console.log(result);
+	}
+ })();
